@@ -18,6 +18,7 @@ public class Vivecontroller : MonoBehaviour
     public SteamVR_Action_Boolean trackPadTouch = SteamVR_Actions.default_TrackPadTouch;
     public SteamVR_Action_Vector2 trackPadPosition = SteamVR_Actions.default_TrackPadPosition;
 
+    public SteamVR_Action_Vibration haptic = SteamVR_Actions.default_Haptic;
     void Awake()
     {
         trigger = SteamVR_Actions.default_InteractUI; 
@@ -31,6 +32,7 @@ public class Vivecontroller : MonoBehaviour
         if(trigger.GetStateDown(leftHand))
         {
             Debug.Log("click left trigger");
+            haptic.Execute(0.2f,0.3f,120.0f,0.5f,leftHand); //웨이팅 타임 지속시간, 주파수, 진폭소스
         }
 
         //오른손 컨트롤러 트리거를 눌렀다가 떼었을때 
@@ -47,7 +49,7 @@ public class Vivecontroller : MonoBehaviour
         Vector2 pos = trackPadPosition.GetAxis(any);  
         Debug.Log($"Touch pos x= {pos.x}/y={pos.y}");
         }     
-        
+
     }
 
 }
