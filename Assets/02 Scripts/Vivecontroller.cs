@@ -32,12 +32,13 @@ public class Vivecontroller : MonoBehaviour
         if(trigger.GetStateDown(leftHand))
         {
             Debug.Log("click left trigger");
-            haptic.Execute(0.2f,0.3f,120.0f,0.5f,leftHand); //웨이팅 타임 지속시간, 주파수, 진폭소스
+            haptic.Execute(0.2f,0.5f,200.0f,1f,leftHand); //웨이팅 타임 지속시간, 주파수, 진폭
         }
 
         //오른손 컨트롤러 트리거를 눌렀다가 떼었을때 
         if(trigger.GetStateUp(rightHand)){
             Debug.Log ("Released Triiger button");
+              haptic.Execute(0.2f,0.5f,200.0f,1f,rightHand); //웨이팅 타임 지속시간, 주파수, 진폭
         }
     
         if(trackPadCilck.GetStateDown(any)){
