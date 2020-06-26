@@ -23,16 +23,28 @@ public class GrabMgr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isTouched == true && tirgger.GetStateDown(hand)){
+        if(isTouched == true && tirgger.GetStateDown(hand))
+        {
             grabObject.SetParent(this.transform);
             grabObject.GetComponent<Rigidbody>().isKinematic = true; //잡은물체의 물리엔진을 끈다,.
         }
         
+        if(isTouched ==false && tirgger.GetStateUp(hand))
+        {
+            grabObject.SetParent(null);
+            Vector3 _velocity = GetComponent< SteamVR_Behaviour_Pose>().GetVelocity();
+            grabObject.GetComponent<Rigidbody>().isKinematic = false;
+            grabObject.GetComponent<Rigidbody>().velocity = _velocity;
+
+            isTouched = false;
+            grabObject = null;
+        }
     }
     
      void OnTriggerEnter(Collider coll)
     {
-      if(coll.CompareTag("Ball")){
+      if(coll.CompareTag("Ball"))
+      {
           isTouched = true;
           grabObject = coll.transform;
       }      
