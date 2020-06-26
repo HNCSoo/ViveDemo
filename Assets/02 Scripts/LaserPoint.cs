@@ -9,6 +9,9 @@ public class LaserPoint : MonoBehaviour
     private SteamVR_Input_Sources hands;
     private SteamVR_Action_Boolean teleport;
     
+    [SerializeField] //프라이빗이지만 인스펙터창에 보여짐
+    private GameObject pointerPrefab;
+    private GameObject Pointer;
 
     //라인렌더러 속성변수
     private LineRenderer line;
@@ -26,6 +29,10 @@ public class LaserPoint : MonoBehaviour
         hands = SteamVR_Input_Sources.LeftHand;
         teleport = SteamVR_Actions.default_Teleport;
         CreateLine();
+
+        pointerPrefab = Resources.Load<GameObject>("Pointer");
+        //pointerPrefab = Resources.Load("Pointer") as GameObject;
+        Pointer = Instantiate<GameObject>(pointerPrefab,this.transform);//(pointerPrefab,위치,각도, 부모)
     }
 
  
