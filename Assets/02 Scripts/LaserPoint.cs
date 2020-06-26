@@ -16,7 +16,7 @@ public class LaserPoint : MonoBehaviour
     //라인렌더러 속성변수
     private LineRenderer line;
     [Range(3.0f,10.0f)] //
-    public float distance =5.0f;
+    public float distance = 5.0f;
 
     public Color defaltColor = Color.green;
     public Color clikedColor = Color.blue;
@@ -24,6 +24,10 @@ public class LaserPoint : MonoBehaviour
     //Raycast
     private RaycastHit hit;
     private Transform tr;
+
+    //암막효과가 지속도니ㅡㄴ 시간
+
+    public float durationTime = 0.2f;
 
     // Start is called before the first frame update
     void Start()
@@ -72,6 +76,23 @@ public class LaserPoint : MonoBehaviour
             pointer.transform.rotation = Quaternion.LookRotation(tr.forward); //올일러를 하면 오류가있을수있음  벡터의 각도를 쿼터니온 각도로 변환해서 넣어준다. 
         }
 
+        if(teleport.GetStateDown(hands)&& Physics.Raycast(tr.position,tr.forward, out hit,distance, 1<<8))//왼손
+        {
+            SteamVR_Fade.Start(Color.black,0.0f ); // 바뀔 색, 바뀔 시간, 
+            //Sleep
+            StartCoroutine(Teleport(hit.point)); //힛된 지점을 넘기고 
+        }
 
+          
     }
+      IEnumerator Teleport (Vector3 pos )//열거자형태 //까맣게 하고 위치를 바꿀꺼야 
+
+        {
+            //위치를 바꾼다는건 카메라 리그를 점프한다는것
+            tr.parent.transform.position = pos;
+            //Waiting
+            yield return new WaitForSeconds(durationTime);//0.2포만큼 기다렸다가 
+            SteamVR_Fade.Start(Color.clear,0.2f);
+        }
+
 }
